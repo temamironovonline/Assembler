@@ -9,11 +9,12 @@ int comprasionTwo(int, int);
 int comprasionThree(int, int, int);
 void changeElementsPlace(int*, int*);
 
+//https://codetown.ru/assembler/delenie-umnozhenie/
+
 int amountAssembler(int, int);
 int differenceAssembler(int, int);
 int multiplyAssembler(int, int);
-int squareAssembler(int);
-float divisionAssembler(float, float);
+int divisionAssembler(int, int);
 int comprasionTwoAssembler(int, int);
 int comprasionThreeAssembler(int, int, int);
 void changeElementsPlaceAssembler(int*, int*);
@@ -67,9 +68,9 @@ int multiplyAssembler(int a, int b)
 	_asm
 	{
 		mov eax, a;
-		mov ecx, b;
-		mul ecx;
-		mov c, ecx;
+		mov ebx, b;
+		mul eax;
+		mov c, eax;
 	}
 	return c;
 }
@@ -78,6 +79,20 @@ int multiplyAssembler(int a, int b)
 int division(int a, int b)
 {
 	int c = a / b;
+	return c;
+}
+
+int divisionAssembler(int a, int b)
+{
+	int c;
+	_asm
+	{
+		mov eax, a;
+		mov edx, 0;
+		mov ebx, b;
+		div ebx;
+		mov c, eax;
+	}
 	return c;
 }
 
@@ -133,4 +148,5 @@ int main(void)
 	printf("%d\n", amountAssembler(var1, var2));
 	printf("%d\n", differenceAssembler(var1, var2));
 	printf("%d\n", multiplyAssembler(var1, var2));
+	printf("%d\n", divisionAssembler(var1, var2));
 }
