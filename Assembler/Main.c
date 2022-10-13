@@ -151,9 +151,41 @@ int comprasionTwoAssembler(int a, int b)
 
 int comprasionThree(int a, int b, int c)
 {
-	if (a > b && a > c) return 1;
-	else if (b > a && b > c) return 2;
-	else if (c > a && c > b) return 3;
+	a = 4;
+	b = 1;
+	c = 4;
+	//Если a больше всех, то 1
+	//Если a>b=c, то 2
+	//Если a=b>c, то 3
+	//Если b больше всех, то 4
+	//Если b>a=c, то 5
+	//Если b=c>a, то 6
+	//Если c больше всех, то 7
+	//Если c>a=b, то 8
+	//Если a=b=c, то 0
+	if (a > b)
+	{
+		if (a > c) return 1;
+		else if (a == c) return 2;
+		else return 8;
+	}
+	else if (a == b)
+	{
+		if (a > c) return 3;
+		else return 7;
+	}
+	else if (b > a)
+	{
+		if (b > c) return 4;
+		else if (b == c) return 6;
+		else return 3;
+	}
+	else if (c > a)
+	{
+		if (c > b) return 3;
+		else if (c == b) return 6;
+		else return 2;
+	}
 	else return 0;
 }
 
@@ -162,24 +194,42 @@ int comprasionThreeAssembler(int a, int b, int c)
 	int d;
 	_asm
 	{
-		mov eax, a
-		cmp eax, b
+		mov eax, a;
+		cmp eax, b;
 
-		je equal
-		jg greater
-		jl less
+		je equalAB;
+		jg greaterAB;
+		jl lessAB;
 
-		equal : 
-		cmp 
-		jmp EndIf
+		equalAB : 
+			cmp eax, c;
+				je equalAC;
+				jg greaterAC;
+				jl lessAC;
+
+			equalAC:
+				mov d, 0;
+				jmp EndIf;
+			greaterAC:
+				mov d, 1;
+				jmp EndIf;
+			lessAC:
+				mov d, 3;
+				jmp EndIf;
 		
-			
+		greaterAB:
+			mov d, 1;
+			cmp eax, c;
+			je EndIf;
+			jg EndIf;
+			jl lessAC;
+
+
 			
 		
-		greater : mov c, 1
-		jmp EndIf
-		less : mov c, 2
-		jmp EndIf
+		
+		lessAB: mov c, 2;
+			jmp EndIf;
 
 		EndIf :
 
