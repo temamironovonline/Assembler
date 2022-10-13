@@ -15,6 +15,7 @@ int amountAssembler(int, int);
 int differenceAssembler(int, int);
 int multiplyAssembler(int, int);
 int divisionAssembler(int, int);
+int divisionRemainderAssembler(int, int);
 int comprasionTwoAssembler(int, int);
 int comprasionThreeAssembler(int, int, int);
 void changeElementsPlaceAssembler(int*, int*);
@@ -49,8 +50,8 @@ int differenceAssembler(int a, int b)
 	int c;
 	_asm
 	{
-		mov eax, b;
-		sub eax, a;
+		mov eax, a;
+		sub eax, b;
 		mov c, eax;
 	}
 	return c;
@@ -69,7 +70,7 @@ int multiplyAssembler(int a, int b)
 	{
 		mov eax, a;
 		mov ebx, b;
-		mul eax;
+		mul ebx;
 		mov c, eax;
 	}
 	return c;
@@ -102,11 +103,50 @@ int divisionRemainder(int a, int b)
 	return c;
 }
 
+int divisionRemainderAssembler(int a, int b)
+{
+	int c;
+	_asm
+	{
+		mov eax, a;
+		mov edx, 0;
+		mov ebx, b;
+		div ebx;
+		mov c, edx;
+	}
+	return c;
+}
+
 int comprasionTwo(int a, int b)
 {
 	if (a > b) return 1;
 	else if (b > a) return 2;
 	else return 0;
+}
+
+int comprasionTwoAssembler(int a, int b)
+{
+	int c;
+	_asm
+	{
+		mov eax, a
+		cmp eax, b
+
+		je equal
+		jg greater
+		jl less
+	
+		equal : mov c, 0
+			jmp EndIf
+		greater : mov c, 1
+			jmp EndIf
+		less : mov c, 2
+			jmp EndIf
+		
+		EndIf:
+
+	}
+	return c;
 }
 
 int comprasionThree(int a, int b, int c)
@@ -115,6 +155,36 @@ int comprasionThree(int a, int b, int c)
 	else if (b > a && b > c) return 2;
 	else if (c > a && c > b) return 3;
 	else return 0;
+}
+
+int comprasionThreeAssembler(int a, int b, int c)
+{
+	int d;
+	_asm
+	{
+		mov eax, a
+		cmp eax, b
+
+		je equal
+		jg greater
+		jl less
+
+		equal : 
+		cmp 
+		jmp EndIf
+		
+			
+			
+		
+		greater : mov c, 1
+		jmp EndIf
+		less : mov c, 2
+		jmp EndIf
+
+		EndIf :
+
+	}
+	return d;
 }
 
 void changeElementsPlace(int* a, int* b)
@@ -129,24 +199,28 @@ int main(void)
 {
 	system("chcp 1251>n");
 	int var1 = 3, var2 = 5, var3 = 10;
-	printf("%d\n", amount(var1, var2));
-	printf("%d\n", difference(var1, var2));
-	printf("%d\n", multiply(var1, var2));
-	printf("%d\n", comprasionTwo(var1, var2));
-	printf("%d\n", comprasionThree(var1, var2, var3));
+	printf("Сумма: %d\n", amount(var1, var2));
+	printf("Разница: %d\n", difference(var1, var2));
+	printf("Умножение: %d\n", multiply(var1, var2));
+	printf("Деление: %d\n", division(var1, var2));
+	printf("Остаток от деления: %d\n", divisionRemainder(var1, var2));
+	printf("Сравнение двух: %d\n", comprasionTwo(var1, var2));
+	printf("Сравнение трех: %d\n", comprasionThree(var1, var2, var3));
 
-	printf("%d\n", division(var3, var2));
-	printf("%d\n", divisionRemainder(var1, var2));
+	
 
 	int* var6 = &var1, * var7 = &var2;
 	printf("%d %d ", *var6, *var7);
 
-	changeElementsPlace(var6, var7);
-	printf("%d %d ", *var6, *var7);
+	//changeElementsPlace(var6, var7);
+	//printf("%d %d ", *var6, *var7);
+
 
 	printf("\nАссемблер\n");
-	printf("%d\n", amountAssembler(var1, var2));
-	printf("%d\n", differenceAssembler(var1, var2));
-	printf("%d\n", multiplyAssembler(var1, var2));
-	printf("%d\n", divisionAssembler(var1, var2));
+	printf("Сумма на ассмеблере: %d\n", amountAssembler(var1, var2));
+	printf("Разница на ассемблере: %d\n", differenceAssembler(var1, var2));
+	printf("Умножение на ассемблере: %d\n", multiplyAssembler(var1, var2));
+	printf("Деление на ассемблере %d\n", divisionAssembler(var1, var2));
+	printf("Остаток от деления на ассемблере: %d\n", divisionRemainderAssembler(var1, var2));
+	printf("Сравнение двух на ассемблере: %d\n", comprasionTwoAssembler(var1, var2));
 }
